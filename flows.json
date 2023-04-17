@@ -1,0 +1,248 @@
+[
+    {
+        "id": "0b1ec363aa46d36b",
+        "type": "tab",
+        "label": "Login",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "925788d8689ed1fd",
+        "type": "switch",
+        "z": "0b1ec363aa46d36b",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "false"
+            },
+            {
+                "t": "true"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 730,
+        "y": 460,
+        "wires": [
+            [
+                "0e8f876aed90b611"
+            ],
+            [
+                "7e0799a939447de8"
+            ]
+        ]
+    },
+    {
+        "id": "7e0799a939447de8",
+        "type": "change",
+        "z": "0b1ec363aa46d36b",
+        "name": "Loging",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{ \"tab\": \"Home\" }",
+                "tot": "json"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 890,
+        "y": 500,
+        "wires": [
+            [
+                "2cdcde80648e716c"
+            ]
+        ]
+    },
+    {
+        "id": "2cdcde80648e716c",
+        "type": "ui_ui_control",
+        "z": "0b1ec363aa46d36b",
+        "name": "",
+        "events": "all",
+        "x": 1100,
+        "y": 500,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "ea2113e26a0ec2af",
+        "type": "ui_toast",
+        "z": "0b1ec363aa46d36b",
+        "position": "top right",
+        "displayTime": "3",
+        "highlight": "",
+        "sendall": true,
+        "outputs": 0,
+        "ok": "OK",
+        "cancel": "",
+        "raw": false,
+        "className": "",
+        "topic": "",
+        "name": "",
+        "x": 1350,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "0e8f876aed90b611",
+        "type": "change",
+        "z": "0b1ec363aa46d36b",
+        "name": "Wrong",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "Incorrect",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 890,
+        "y": 420,
+        "wires": [
+            [
+                "afbe7059f2fc282f"
+            ]
+        ]
+    },
+    {
+        "id": "492f921f48b03c6d",
+        "type": "ui_form",
+        "z": "0b1ec363aa46d36b",
+        "name": "Login",
+        "label": "",
+        "group": "6dc0b01ed2a0513b",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "options": [
+            {
+                "label": "Username",
+                "value": "username",
+                "type": "text",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Password",
+                "value": "password",
+                "type": "password",
+                "required": true,
+                "rows": null
+            }
+        ],
+        "formValue": {
+            "username": "",
+            "password": ""
+        },
+        "payload": "",
+        "submit": "submit",
+        "cancel": "cancel",
+        "topic": "Form",
+        "topicType": "str",
+        "splitLayout": "",
+        "className": "",
+        "x": 350,
+        "y": 180,
+        "wires": [
+            [
+                "969fb6998c7ec251",
+                "667d9a283341306c"
+            ]
+        ]
+    },
+    {
+        "id": "969fb6998c7ec251",
+        "type": "function",
+        "z": "0b1ec363aa46d36b",
+        "name": "Check_User",
+        "func": "msg.topic = \"Check\";\nif (msg.payload.username == \"admin\" && msg.payload.password ==\"1234\")\n    msg.payload = true;\nelse\n{\n    if (msg.payload.username != \"admin\")\n        flow.set(\"Login_Wrong\",\"username\");\n    else\n        flow.set(\"Login_Wrong\", \"password\");\n    msg.payload = false;\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 530,
+        "y": 340,
+        "wires": [
+            [
+                "925788d8689ed1fd",
+                "667d9a283341306c"
+            ]
+        ]
+    },
+    {
+        "id": "667d9a283341306c",
+        "type": "function",
+        "z": "0b1ec363aa46d36b",
+        "name": "Welcome_Back",
+        "func": "var name = context.get(\"name\");\n\nif(msg.topic == \"Form\")\n    context.set(\"name\", msg.payload.username);\nif(msg.topic == \"Check\")\n    {\n        if(msg.payload)\n        {\n            msg.payload = \"Welcome back \"+ name;\n            return msg;\n        }\n    }\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 760,
+        "y": 180,
+        "wires": [
+            [
+                "ea2113e26a0ec2af"
+            ]
+        ]
+    },
+    {
+        "id": "afbe7059f2fc282f",
+        "type": "function",
+        "z": "0b1ec363aa46d36b",
+        "name": "Notification_Wrong",
+        "func": "var wrong = flow.get(\"Login_Wrong\");\n\nif (wrong == \"username\")\n    msg.payload = \"Invalid username. Try again!\";\nif (wrong == \"password\")\n    msg.payload = \"Wrong password. Try again!\";\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1090,
+        "y": 300,
+        "wires": [
+            [
+                "ea2113e26a0ec2af"
+            ]
+        ]
+    },
+    {
+        "id": "6dc0b01ed2a0513b",
+        "type": "ui_group",
+        "name": "Login",
+        "tab": "571240d3094e1f9b",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "571240d3094e1f9b",
+        "type": "ui_tab",
+        "name": "Login",
+        "icon": "dashboard",
+        "order": 1,
+        "disabled": false,
+        "hidden": true
+    }
+]
