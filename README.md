@@ -1,8 +1,4 @@
-# Login_Web_App
-Node-Red
-
-- Should change node function before using
-- Username: admin |Password:1234
-
+# Node-RED Usefull Collection
+Node-RED Dashboard
 # Author 
 Le Hoang Khanh

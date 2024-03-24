@@ -1,0 +1,43 @@
+[
+    {
+        "id": "04cc876f2a8297ce",
+        "type": "ui_template",
+        "z": "0b1ec363aa46d36b",
+        "group": "6dc0b01ed2a0513b",
+        "name": "",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "format": "<script>\n    (function($scope) {\n    document.onkeydown = function (e) {\n        let msg = {\"payload\": e.key,  \"topic\": \"keydown\"};\n        $scope.send(msg);\n    };\n    \n    document.onkeyup = function (e) {\n        let msg = {\"payload\": e.key, \"topic\": \"keyup\"};\n        $scope.send(msg);\n    };\n})(scope);\n</script>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 80,
+        "y": 600,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "6dc0b01ed2a0513b",
+        "type": "ui_group",
+        "name": "Login",
+        "tab": "571240d3094e1f9b",
+        "order": 1,
+        "disp": false,
+        "width": "12",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "571240d3094e1f9b",
+        "type": "ui_tab",
+        "name": "Login",
+        "icon": "dashboard",
+        "order": 2,
+        "disabled": false,
+        "hidden": true
+    }
+]
